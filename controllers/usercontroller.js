@@ -58,7 +58,6 @@ const loginUser = async (req, res) => {
     const user = await userService.loginUser(req.body);
 
     const token = await generateToken.generateToken(user);
-    console.log("decoded id", decoded);
     res.status(200).json({
       message: "Login successful",
       token,
