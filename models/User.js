@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { ROLE_ADMIN, ROLE_CUSTOMER, ROLE_MERCHANT } from "../constants/userRole.js";
 
 const userSchema = new mongoose.Schema(
   {
@@ -19,12 +20,23 @@ const userSchema = new mongoose.Schema(
       required: true,
       minlength: 6,
     },
-
-    role: {
+    phone: {
       type: String,
-      enum: ["ADMIN", "CUSTOMER", "MERCHANT"],
-      default: "CUSTOMER"
+      required: true,
+      unique: true,
+      trim: true,
     },
+    address: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+   role: {
+  type: String,
+  enum: [ROLE_CUSTOMER, ROLE_MERCHANT, ROLE_ADMIN],
+  default: ROLE_CUSTOMER,
+},
   },
   {
     timestamps: true,

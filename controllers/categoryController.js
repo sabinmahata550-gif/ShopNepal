@@ -26,6 +26,8 @@ const getCategoryById=async(req,res)=>{
 
 const createCategory=async(req,res)=>{
     try{
+            console.log("BODY:", req.body);
+
         const category=await categoryService.createCategory(req.body);
         res.status(201).json(category);
     }

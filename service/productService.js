@@ -1,12 +1,14 @@
 import Product from "../models/Product.js";
 
 const getAllProducts = async () => {
-    return await Product.find().populate("category", "name") .populate("category", "name")
-    .populate("createdBy", "name email");;
+    return await Product.find()
+        .populate("category", "name")
+        .populate("createdBy", "name email role");
 };
-
 const getProductById = async (id) => {
-    return await Product.findById(id).populate("category", "name").populate("createdBy", "name email");
+    return await Product.findById(id)
+        .populate("category", "name")
+        .populate("createdBy", "name email role");
 };
 
 const createProduct = async (productData) => {

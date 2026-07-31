@@ -56,7 +56,6 @@ const createUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const user = await userService.loginUser(req.body);
-
     const token = await generateToken.generateToken(user);
     res.status(200).json({
       message: "Login successful",
@@ -69,5 +68,18 @@ const loginUser = async (req, res) => {
     });
   }
 };
+const registerUser = async (req, res) => {
+  try {
+    const user = await userService.registerUser(req.body);
+    return res.status(201).json({
+      message: "User registered successfully",
+      user,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error.message,
+    });
+  }
+};
 
-export default { getAllUsers, getUserById, createUser, loginUser };
+export default { getAllUsers, getUserById, createUser, loginUser, registerUser };
