@@ -39,7 +39,6 @@ const getProductById = async (req, res) => {
 const createProduct = async (req, res) => {
   try {
     const product = await productService.createProduct({ ...req.body, createdBy: req.user.id });
-
     res.status(201).json({
       message: "Product created successfully",
       product,
@@ -55,7 +54,7 @@ const updateProduct = async (req, res) => {
   try {
     const product = await productService.updateProduct(
       req.params.id,
-      { ...req.body, createdBy: req.user._id }
+      { ...req.body, createdBy: req.user.id }
     );
 
     if (!product) {

@@ -23,7 +23,9 @@ const updateProduct = async (id, productData) => {
             new: true,
             runValidators: true,
         }
-    );
+    )
+    .populate("category", "name")
+    .populate("createdBy", "name email phone role");
 };
 
 const deleteProduct = async (id) => {
