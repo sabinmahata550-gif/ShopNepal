@@ -1,5 +1,5 @@
 import express from "express";
-
+import validate from "../middlewares/validateMiddleware.js"
 import productController from "../controllers/productController.js";
 import authMiddleware from "../middlewares/authMiddleware.js";
 import roleMiddleware from "../middlewares/roleMiddleware.js";
@@ -9,6 +9,7 @@ import {
     ROLE_ADMIN,
     ROLE_MERCHANT,
 } from "../constants/userRole.js";
+import productSchema from "../validators/productValidator.js";
 
 const router = express.Router();
 
@@ -19,10 +20,11 @@ router.get("/:id", productController.getProductById);
 // Create product
 // अहिले Admin मात्र
 router.post(
-    "/",
-    authMiddleware,
-    roleMiddleware(ROLE_ADMIN,ROLE_MERCHANT),
-    productController.createProduct
+  "/",
+  authMiddleware,
+  roleMiddleware(ROLE_MERCHANT, ROLE_ADMIN),
+  validate(productSchema),
+  productController.createProduct
 );
 
 // Update product
@@ -32,6 +34,7 @@ router.put(
     authMiddleware,
     roleMiddleware(ROLE_MERCHANT, ROLE_ADMIN),
     productOwnershipMiddleware,
+    validate(productSchema),
     productController.updateProduct
 );
 

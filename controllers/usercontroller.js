@@ -1,4 +1,4 @@
-import userService from "../service/userService.js";
+import userService from "../services/userService.js";
 import bcrypt from "bcrypt";
 import generateToken from "../utils/generateToken.js";
 

@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import userRoutes from './routes/userRoute.js';
 import categoryRoutes from "./routes/categoryRoute.js";
 import productRoutes from "./routes/productRoute.js";
+import cartRoutes from "./routes/cartRoute.js"
 dotenv.config();
 const app = express();
 const port = 3000;
@@ -12,6 +13,7 @@ app.use(express.json());
 app.use("/api/users", userRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/cart",cartRoutes);
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
