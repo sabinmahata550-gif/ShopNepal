@@ -1,4 +1,5 @@
 import Product from "../models/Product.js";
+import uploadFile from "../utils/fileUploader.js";
 
 const getAllProducts = async () => {
     return await Product.find()
@@ -12,7 +13,14 @@ const getProductById = async (id) => {
 };
 
 const createProduct = async (productData) => {
-    return await Product.create(productData);
+    const { files, ...data } = productData;
+
+    const imageUrls = await uploadFile(files);
+
+    return await Product.create({
+        ...data,
+        images: imageUrls,
+    });
 };
 
 const updateProduct = async (id, productData) => {
@@ -24,8 +32,8 @@ const updateProduct = async (id, productData) => {
             runValidators: true,
         }
     )
-    .populate("category", "name")
-    .populate("createdBy", "name email phone role");
+        .populate("category", "name")
+        .populate("createdBy", "name email phone role");
 };
 
 const deleteProduct = async (id) => {

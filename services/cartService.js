@@ -57,7 +57,6 @@ const getMyCart = async (userId) => {
 const updateCartItem = async (userId, productId, quantity) => {
     // Find user's cart
     const cart = await Cart.findOne({ user: userId });
-    console.log(cart)
     if (!cart) {
         throw new Error("Cart not found");
     }
@@ -66,7 +65,6 @@ const updateCartItem = async (userId, productId, quantity) => {
     const item = cart.items.find(
         (item) => item.product.toString() === productId
     );
-    console.log("item is", item)
     if (!item) {
         throw new Error("Product not found in cart");
     }

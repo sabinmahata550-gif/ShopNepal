@@ -3,13 +3,14 @@ import validate from "../middlewares/validateMiddleware.js"
 import productController from "../controllers/productController.js";
 import authMiddleware from "../middlewares/authMiddleware.js";
 import roleMiddleware from "../middlewares/roleMiddleware.js";
+import upload from "../middlewares/upload.js";
 import productOwnershipMiddleware from "../middlewares/productOwnershipMiddleware.js";
-
 import {
     ROLE_ADMIN,
     ROLE_MERCHANT,
 } from "../constants/userRole.js";
 import productSchema from "../validators/productValidator.js";
+import uploadFile from "../utils/fileUploader.js";
 
 const router = express.Router();
 
@@ -23,6 +24,7 @@ router.post(
   "/",
   authMiddleware,
   roleMiddleware(ROLE_MERCHANT, ROLE_ADMIN),
+  upload.array("images",5),
   validate(productSchema),
   productController.createProduct
 );
