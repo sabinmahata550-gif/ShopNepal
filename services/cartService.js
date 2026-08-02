@@ -54,7 +54,71 @@ const getMyCart = async (userId) => {
         ;
 };
 
+const updateCartItem = async (userId, productId, quantity) => {
+    // Find user's cart
+    const cart = await Cart.findOne({ user: userId });
+    console.log(cart)
+    if (!cart) {
+        throw new Error("Cart not found");
+    }
+
+    // Find product in cart
+    const item = cart.items.find(
+        (item) => item.product.toString() === productId
+    );
+    console.log("item is", item)
+    if (!item) {
+        throw new Error("Product not found in cart");
+    }
+
+    // Update quantity
+    item.quantity = quantity;
+
+    await cart.save();
+
+    return await Cart.findOne({ user: userId })
+        .populate("user", "name email phone")
+        .populate("items.product", "name price images");
+};
+
+const removeCartItem = async (userId, productId) => {
+    const cart = await Cart.findOne({ user: userId });
+
+    if (!cart) {
+        throw new Error("Cart not found");
+    }
+
+    cart.items = cart.items.filter(
+        (item) => item.product.toString() !== productId
+    );
+
+    await cart.save();
+
+    return await Cart.findOne({ user: userId })
+        .populate("user", "name email phone")
+        .populate("items.product", "name price images");
+};
+
+const clearCart = async (userId) => {
+    const cart = await Cart.findOne({ user: userId });
+console.log("my cart is",cart)
+    if (!cart) {
+        throw new Error("Cart not found");
+    }
+
+    cart.items = [];
+
+    await cart.save();
+
+    return await Cart.findOne({ user: userId })
+        .populate("user", "name email phone")
+        .populate("items.product", "name price images");
+};
+
 export default {
     addToCart,
     getMyCart,
+    updateCartItem,
+    removeCartItem,
+    clearCart,
 };
