@@ -15,9 +15,38 @@ const createProduct = async (productData, userId) => {
 
 
 
-const getAllProducts = async () => {
+const getAllProducts = async (query) => {
     try {
-        return await Product.find()
+        const limit = Number(query.limit) || 10;
+        const skip = Number(query.skip) || 0;
+        const filters = {}
+        const { brand, category, name, min, max } = query;
+        if (brand) filters.brand = {
+            $regex: brand,
+            $options: "i"
+        };
+        if (category) filters.category = {
+            $regex: category,
+            $options: "i"
+        };
+
+        if (name) filters.name = {
+            $regex: name,
+            $options: "i"
+        };
+        if (min || max) {
+            filters.price = {};
+
+            if (min) {
+                filters.price.$gte = Number(min);
+            }
+
+            if (max) {
+                filters.price.$lte = Number(max);
+            }
+        }
+        return await Product.find(filters)
+            .sort({ createdAt: 1 }).skip(skip).limit(limit)
             .populate("createdBy", "name email");
     } catch (error) {
         throw error;
