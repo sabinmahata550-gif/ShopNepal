@@ -1,0 +1,12 @@
+import config from "./config.js";
+import { v2 as cloudinary } from 'cloudinary';
+
+function connectCloudinary() {
+    cloudinary.config({
+        cloud_name: config.cloudinary.cloudinaryName,
+        api_key: config.cloudinary.apiKey,
+        api_secret: config.cloudinary.apiSecret // Click 'View API Keys' above to copy your API secret
+    });
+}
+
+export default connectCloudinary;

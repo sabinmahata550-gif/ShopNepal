@@ -1,11 +1,13 @@
 import productService from '../services/productServices.js';
+import uploadFile from '../utils/fileUploader.js';
 
 const createProduct = async (req, res) => {
     try {
         const productData = req.body;
         const id = req.user.id;
-
-        const product = await productService.createProduct(productData, id);
+        const files = req.files;
+        const imageUrl = await uploadFile(files);
+        const product = await productService.createProduct(productData, id, imageUrl);
         res.status(201).json({ message: "Product created successfully", product });
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -14,7 +16,7 @@ const createProduct = async (req, res) => {
 
 const getAllProducts = async (req, res) => {
     try {
-        const query=req.query;
+        const query = req.query;
         const products = await productService.getAllProducts(query);
 
         res.status(200).json({
@@ -32,7 +34,6 @@ const getProductById = async (req, res) => {
     try {
         const pId = req.params.id;
         const product = await productService.getProductById(pId);
-        console.log("product is", product);
         res.status(200).json({
             message: "Products fetched successfully",
             product

@@ -1,10 +1,11 @@
 import Product from "../models/Product.js";
 
-const createProduct = async (productData, userId) => {
+const createProduct = async (productData, userId, imgUrl) => {
     try {
         const product = await Product.create({
             ...productData,
-            createdBy: userId
+            createdBy: userId,
+            ImageUrls: imgUrl
         });
 
         return product;

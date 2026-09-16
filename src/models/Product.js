@@ -32,7 +32,6 @@ const productSchema = new mongoose.Schema(
         },
         description: {
             type: String,
-            required: true,
             trim: true,
         },
         createdBy: {
@@ -40,6 +39,10 @@ const productSchema = new mongoose.Schema(
             ref: "User",
             required: true,
         },
+
+        ImageUrls: {
+            type: ["String"]
+        }
     },
     {
         timestamps: true,
