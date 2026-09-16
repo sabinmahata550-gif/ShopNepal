@@ -6,38 +6,68 @@ const orderSchema = new mongoose.Schema(
         user: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
-            required: true
+            required: [true, "User is required."]
         },
 
-        products: [
+        orderItems: [
             {
                 product: {
                     type: mongoose.Schema.Types.ObjectId,
                     ref: "Product",
-                    required: true
+                    required: [true, "Product is required."]
                 },
+
                 quantity: {
                     type: Number,
-                    required: true,
+                    required: [true, "Quantity must be at lesat 1."],
                     min: 1
                 },
-                price: {
+
+                payment: {
                     type: Number,
-                    required: true
+                    // required: true
                 }
             }
         ],
-
-        totalAmount: {
-            type: Number,
-            required: true
-        },
 
         status: {
             type: String,
             enum: Object.values(ORDER_STATUS),
             default: ORDER_STATUS.PENDING
+        },
+        shippingAddress: {
+            province: {
+                type: String,
+                required: true
+            },
+            district: {
+                type: String,
+                required: true
+            },
+
+            city: {
+                type: String
+            },
+
+            street: {
+                type: String
+            }
+        },
+        orderNumber: {
+            type: String,
+            required: [true, "Ordernumber is required."]
+
+        },
+        totalAmount: {
+            type: Number,
+            required: [true, "total price is required."]
+        },
+        payment: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref:"Payment"
+
         }
+
     },
     {
         timestamps: true
