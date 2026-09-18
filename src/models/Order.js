@@ -60,7 +60,7 @@ const orderSchema = new mongoose.Schema(
         },
         totalAmount: {
             type: Number,
-            required: [true, "total price is required."]
+            required: [true, "total amount is required."]
         },
         payment: {
             type: mongoose.Schema.Types.ObjectId,

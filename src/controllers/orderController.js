@@ -70,7 +70,7 @@ const confirmOrder = async (req, res) => {
     try {
         const id = req.params.id;
 
-        const order = await orderServices.confirmOrder(id)
+        const order = await orderServices.confirmOrder(id,req.body.status)
         res.json(order)
 
 
@@ -98,6 +98,30 @@ const getOrderByMerchant = async (req, res) => {
     }
 }
 
+const orderPaymentViaCash = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        const order = await orderServices.orderPaymentViaCash(id)
+        res.json(order)
+    } catch (error) {
+        res.status(400).json(error.message);
+
+    }
+}
+
+const orderPaymentViaKhalti= async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        const order = await orderServices.orderPaymentViaKhalti(id)
+        res.json(order)
+    } catch (error) {
+        res.status(400).json(error.message);
+
+    }
+}
+
 export default {
     getOrder,
     getOrderById,
@@ -107,5 +131,7 @@ export default {
     confirmOrder,
     deleteOrder,
     getOrderByUser,
-    getOrderByMerchant
+    getOrderByMerchant,
+    orderPaymentViaCash,
+    orderPaymentViaKhalti
 }

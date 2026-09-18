@@ -7,9 +7,12 @@ const router = express.Router();
 
 router.get(
     "/",
+    authMiddleware,
     roleBasedAuth(ADMIN_ROLE),
     orderController.getOrder
 );
+
+
 
 router.get(
     "/my-orders",
@@ -30,7 +33,7 @@ router.post(
     orderController.createOrder
 );
 
-router.patch(
+router.put(
     "/:id/cancel",
     authMiddleware,
     roleBasedAuth(CUSTOMER_ROLE),
@@ -44,7 +47,8 @@ router.patch(
     orderController.updateOrderStatus
 );
 
-router.patch(
+
+router.put(
     "/:id/confirm",
     authMiddleware,
     roleBasedAuth(CUSTOMER_ROLE),
@@ -56,6 +60,21 @@ router.delete(
     roleBasedAuth(ADMIN_ROLE),
     orderController.deleteOrder
 );
+
+router.put(
+    "/:id/payment/cash",
+    authMiddleware,
+    roleBasedAuth(CUSTOMER_ROLE),
+    orderController.orderPaymentViaCash
+);
+
+router.put(
+    "/:id/payment/khalti",
+    authMiddleware,
+    roleBasedAuth(CUSTOMER_ROLE),
+    orderController.orderPaymentViaKhalti
+);
+
 
 
 export default router;
