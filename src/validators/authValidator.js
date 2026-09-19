@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { emailRegex, passwordRegex } from "../constants/regex.js";
-import { ADMIN_ROLE,MERCHANT_ROLE,CUSTOMER_ROLE } from "../constants/userRole.js";
+import { ADMIN_ROLE, MERCHANT_ROLE, CUSTOMER_ROLE } from "../constants/userRole.js";
 const registerSchema = z.object({
     name: z
         .string()
@@ -48,8 +48,24 @@ const loginSchema = z.object({
         .string()
         .min(6, "Password must be at least 6 characters")
 });
+const forgotPasswordSchema = z.object({
+    email: z
+        .string()
+        .trim()
+        .regex(emailRegex, "Invalid email address"),
+})
 
+const resetPasswordSchema = z.object({
+    password: z
+        .string(),
+    userId: z
+        .string(),
+    token: z
+        .string(),
+})
 export {
     registerSchema,
-    loginSchema
+    loginSchema,
+    forgotPasswordSchema,
+    resetPasswordSchema
 };

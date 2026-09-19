@@ -15,7 +15,7 @@ const loginUser = async (req, res) => {
         const { identifier, password } = req.body;
 
         const user = await authservice.loginUser({ identifier, password });
-        user.password = undefined; // Hide password in response
+        user.password = undefined;
         const token = generateToken(user);
         res.status(200).json({ message: "User logged in successfully", user, token });
     } catch (error) {
@@ -23,7 +23,34 @@ const loginUser = async (req, res) => {
     }
 };
 
+
+const forgotPassword = async (req, res) => {
+    try {
+        const input = req.body;
+
+        const data = await authservice.forgotPassword(input.email);
+
+        res.json(data);
+    } catch (error) {
+        res.status(error.status || 400).json({ error: error.message });
+    }
+};
+
+const resetPassword = async (req, res) => {
+    try {
+        const input = req.body;
+
+        const data = await authservice.resetPassword(input);
+
+        res.json(data);
+    } catch (error) {
+        res.status(error.status || 400).json({ error: error.message });
+    }
+};
+
 export default {
     registerUser,
-    loginUser
+    loginUser,
+    forgotPassword,
+    resetPassword
 };
