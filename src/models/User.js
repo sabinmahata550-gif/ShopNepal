@@ -58,15 +58,25 @@ const userSchema = new mongoose.Schema(
             }
         ],
 
-        role: {
-            type: String,
+        roles: {
+            type: [String],
             enum: [
                 ADMIN_ROLE,
                 MERCHANT_ROLE,
                 CUSTOMER_ROLE
             ],
             default: CUSTOMER_ROLE
+        },
+
+        profileImageUrl: {
+            type: ["String"]
+        },
+
+        isActive: {
+            type: Boolean,
+            default: true,
         }
+
     },
     {
         timestamps: true

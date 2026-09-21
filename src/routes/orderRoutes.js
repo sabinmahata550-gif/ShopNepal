@@ -19,10 +19,19 @@ router.get(
     authMiddleware,
     orderController.getOrderByUser
 );
+
+router.get(
+    "/merchant",
+    authMiddleware,
+    roleBasedAuth(MERCHANT_ROLE),
+    orderController.getOrderByMerchant
+);
+
 router.get(
     "/:id",
     orderController.getOrderById
 );
+
 
 
 

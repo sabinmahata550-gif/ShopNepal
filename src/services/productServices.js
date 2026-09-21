@@ -47,7 +47,7 @@ const getAllProducts = async (query) => {
             }
         }
         return await Product.find(filters)
-            .sort({ createdAt: 1 }).skip(skip).limit(limit)
+            .sort({ createdAt: -1 }).skip(skip).limit(limit)
             .populate("createdBy", "name email");
     } catch (error) {
         throw error;

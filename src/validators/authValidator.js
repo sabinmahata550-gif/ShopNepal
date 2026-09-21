@@ -19,7 +19,7 @@ const registerSchema = z.object({
             passwordRegex,
             "Password must contain 8+ characters, uppercase, lowercase, number and special character"
         ),
-    role: z
+    roles: z
         .enum([ADMIN_ROLE, MERCHANT_ROLE, CUSTOMER_ROLE])
         .optional(),
     phone: z

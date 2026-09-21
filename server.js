@@ -5,9 +5,6 @@ import config from "./src/config/config.js";
 import connectCloudinary from "./src/config/cloudinary.js";
 
 dotenv.config();
-
-
-
 connectDB();
 connectCloudinary();
 app.listen(config.PORT, () => {

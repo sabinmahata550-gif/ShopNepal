@@ -4,7 +4,7 @@ import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import sendEmail from "../utils/email.js";
 const registerUser = async (userData) => {
-    const { name, email, password, phone, address, role } = userData;
+    const { name, email, password, phone, address, roles } = userData;
     if (!name || !email || !password || !phone || !address) {
         throw new Error("All fields are required");
     }
@@ -13,11 +13,19 @@ const registerUser = async (userData) => {
         throw new Error("User already exists");
     }
     const hashedPassword = await bcrypt.hash(password, 10);
+    delete userData.roles;
     const user = await User.create({
         ...userData,
         password: hashedPassword
     });
-    return user;
+    return {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        roles: user.roles,
+        isActive: user.isActive,
+        phone: user.phone,
+    };
 }
 
 const loginUser = async ({ identifier, password }) => {
@@ -33,7 +41,17 @@ const loginUser = async ({ identifier, password }) => {
     });
 
     if (!user) {
-        throw new Error("Invalid email/phone or password");
+        throw {
+            status: 404,
+            message: "User not found."
+        };
+    }
+
+    if (!user.isActive) {
+        throw {
+            status: 404,
+            message: "User is inactive."
+        };
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -42,12 +60,18 @@ const loginUser = async ({ identifier, password }) => {
         throw new Error("Invalid email/phone or password");
     }
 
-    return user;
+    return {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        roles: user.roles,
+        isActive: user.isActive,
+        phone: user.phone,
+    };
 };
 
 const forgotPassword = async (email) => {
     const user = await User.findOne({ email });
-    console.log("user is:", user._id.toString())
     if (!user) {
         throw {
             ststus: 404,

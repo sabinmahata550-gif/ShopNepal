@@ -9,7 +9,7 @@ const upload = multer({ storage: multer.memoryStorage() })
 const app = express();
 app.use(express.json());
 app.use("/api/auth", authRoute);
-app.use("/api/user", userRoute);
-app.use("/api/product", upload.array('images', 12), productRoute);
+app.use("/api/users", userRoute);
+app.use("/api/products", upload.array('images', 12), productRoute);
 app.use("/api/orders", orderRoutes);
 export default app;

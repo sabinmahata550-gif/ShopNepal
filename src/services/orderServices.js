@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { ORDER_STATUS } from "../constants/orderStatus.js";
 import {
     PAYMENT_METHOD_CARD,
@@ -28,15 +29,14 @@ const getOrderById = async (id) => {
     }
     return order;
 };
-const createOrder = async (data, userId) => {
-    const user = await userServices.getUserById(userId);
-console.log(user.address)
+const createOrder = async (data, authUser) => {
+    const user = await userServices.getUserById(authUser.id, authUser);
     if (!data.shippingAddress) {
         data.shippingAddress = user.address[0];
     }
 
     data.orderNumber = crypto.randomUUID();
-    data.user = userId;
+    data.user = authUser.id;
     return await Order.create(data);
 };
 const updateOrderStatus = async (id, status) => {
@@ -75,7 +75,58 @@ const getOrderByUser = async (userId) => {
         .populate("user", "name email phone")
         .populate("orderItems.product", "name brand category price");
 };
-const getOrderByMerchant = () => { };
+
+const getOrderByMerchant = async (merchantId) => {
+    return await Order.aggregate([
+
+        {
+            $lookup: {
+                from: "users",
+                localField: "user",
+                foreignField: "_id",
+                as: "orderUser"
+            },
+        },
+        {
+            $unwind: "$orderUser"
+        },
+        {
+            $lookup: {
+                from: "products",
+                localField: "orderItems.product",
+                foreignField: "_id",
+                as: "orderedProducts"
+            },
+        },
+        {
+            $match: {
+                "orderedProducts.createdBy": new mongoose.Types.ObjectId(merchantId),
+            }
+        },
+        {
+            $project: {
+                orderNumber: 1,
+                shippingAddress: 1,
+                payment: 1,
+                status: 1,
+                totalAmount: 1,
+                "orderedProducts._id": 1,
+                "orderedProducts.name": 1,
+                "orderedProducts.brand": 1,
+                "orderedProducts.category": 1,
+                "orderedProducts.ImageUrls": 1,
+                "orderUser._id": 1,
+
+                "orderUser.name": 1,
+                "orderUser.email": 1,
+                "orderUser.phone": 1
+
+
+
+            }
+        }
+    ])
+};
 
 const orderPaymentViaCash = async (id) => {
     const order = await Order.findById(id)

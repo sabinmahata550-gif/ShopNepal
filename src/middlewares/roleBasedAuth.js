@@ -1,13 +1,15 @@
 const roleBasedAuth = (...allowedRoles) => {
     return (req, res, next) => {
+
         try {
+
             if (!req.user) {
                 return res.status(401).json({
                     message: "Unauthorized"
                 });
             }
 
-            if (!allowedRoles.includes(req.user.role)) {
+            if (!allowedRoles.includes(req.user.roles[0])) {
                 return res.status(403).json({
                     message: "You do not have permission to perform this action"
                 });
