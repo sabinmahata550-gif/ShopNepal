@@ -7,6 +7,7 @@ import multer from "multer"
 const upload = multer({ storage: multer.memoryStorage() })
 
 const app = express();
+
 app.get("/", (req, res) => {
     res.json({
         message: "Nepal Shops API is running"

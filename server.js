@@ -5,8 +5,16 @@ import config from "./src/config/config.js";
 import connectCloudinary from "./src/config/cloudinary.js";
 
 dotenv.config();
-connectDB();
+
+await connectDB();
 connectCloudinary();
-app.listen(config.PORT, () => {
-    console.log(`Server running on port ${config.PORT}`);
-});
+
+const PORT = config.PORT || 8000;
+
+if (process.env.NODE_ENV !== "production") {
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}
+
+export default app;
