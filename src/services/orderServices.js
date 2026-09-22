@@ -114,7 +114,7 @@ const getOrderByMerchant = async (merchantId) => {
                 "orderedProducts.name": 1,
                 "orderedProducts.brand": 1,
                 "orderedProducts.category": 1,
-                "orderedProducts.ImageUrls": 1,
+                "orderedProducts.imageUrls": 1,
                 "orderUser._id": 1,
 
                 "orderUser.name": 1,

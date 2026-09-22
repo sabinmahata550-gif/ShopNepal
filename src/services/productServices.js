@@ -5,7 +5,7 @@ const createProduct = async (productData, userId, imgUrl) => {
         const product = await Product.create({
             ...productData,
             createdBy: userId,
-            ImageUrls: imgUrl
+            imageUrls: imgUrl
         });
 
         return product;
@@ -73,7 +73,6 @@ const updateProduct = async (productId, userId, updateData) => {
             throw new Error("Product not found");
         }
 
-        // Product create गर्ने user मात्र update गर्न पाउने
         if (product.createdBy.toString() !== userId.toString()) {
             throw new Error(
                 "Only the product creator can update this product"
