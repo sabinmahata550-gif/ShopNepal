@@ -16,7 +16,7 @@ const getOrder = async () => {
     return await Order.find()
         .sort({ createdAt: -1 })
         .populate("user", "name email phone")
-        .populate("orderItems.product", "name brand category price");
+        .populate("orderItems.product", "name brand category price imageUrls");
 };
 const getOrderById = async (id) => {
     const order = await Order.findById(id)
