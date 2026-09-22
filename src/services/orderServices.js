@@ -73,7 +73,7 @@ const confirmOrder = async (id, status) => {
 const getOrderByUser = async (userId) => {
     return await Order.find({ user: userId })
         .populate("user", "name email phone")
-        .populate("orderItems.product", "name brand category price");
+        .populate("orderItems.product", "name brand category price imageUrls");
 };
 
 const getOrderByMerchant = async (merchantId) => {
