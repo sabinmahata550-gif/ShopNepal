@@ -1,9 +1,18 @@
+import { PRODUCT_DESCRIPTION_PROMPT } from "../constants/prompt.js";
 import Product from "../models/Product.js";
+import promptAi from "../utils/ai.js";
 
 const createProduct = async (productData, userId, imgUrl) => {
     try {
+        const promptMessage = PRODUCT_DESCRIPTION_PROMPT
+            .replace("%s", productData.name)
+            .replace("%s", productData.category)
+            .replace("%s", productData.brand)
+        const description = productData.description ?? (await promptAi(promptMessage));
+
         const product = await Product.create({
             ...productData,
+            description,
             createdBy: userId,
             imageUrls: imgUrl
         });

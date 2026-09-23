@@ -17,8 +17,12 @@ const config = {
         returnUrl: process.env.KHALTI_RETURN_URL || "",
     },
 
-    resendEmailApiKey: process.env.RESEND_EMAIL_API_KEY || ""
+    resendEmailApiKey: process.env.RESEND_EMAIL_API_KEY || "",
+    geminiApiKey: process.env.GEMINI_API_KEY || ""
 
 }
+/*
+create a detailed product description for my ecommerce website. Follow these details:Product name:Levics,Category:ccc,Brand:dfiik,Price,create the description in markdown format.ignore extra message.dont use enter ascuii (\n).but please provide proper formatting for heading,pragraphs,bulletns.
+*/
 
 export default config;
