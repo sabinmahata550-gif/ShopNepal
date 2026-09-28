@@ -40,5 +40,5 @@ router.get(
     productController.getAllProducts
 );
 
-router.get("/:id", authMiddleware, productController.getProductById)
+router.get("/:id", productController.getProductById)
 export default router;
