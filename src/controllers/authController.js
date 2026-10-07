@@ -15,8 +15,8 @@ const loginUser = async (req, res) => {
 
         const user = await authservice.loginUser({ identifier, password });
         const token = generateToken(user);
-        res.cookie("authToken",token,{
-            maxAge:86400*1000,
+        res.cookie("authToken", token, {
+            maxAge: 86400 * 1000,
         })
         res.status(200).json({ message: "User logged in successfully", user, token });
     } catch (error) {

@@ -5,7 +5,7 @@ import productRoute from "./routes/productRoute.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import multer from "multer"
 const upload = multer({ storage: multer.memoryStorage() })
-
+import cors from "cors";
 const app = express();
 
 app.get("/", (req, res) => {
@@ -15,6 +15,7 @@ app.get("/", (req, res) => {
 });
 
 app.use(express.json());
+app.use(cors());
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/products", upload.array('images', 12), productRoute);
