@@ -3,6 +3,7 @@ import Product from "../models/Product.js";
 import promptAi from "../utils/ai.js";
 
 const createProduct = async (productData, userId, imgUrl) => {
+    console.log("product data is ", productData)
     try {
         const promptMessage = PRODUCT_DESCRIPTION_PROMPT
             .replace("%s", productData.name)

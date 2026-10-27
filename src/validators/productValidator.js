@@ -21,7 +21,11 @@ const productSchema = z.object({
         .string(),
 
     stock: z
+        .string(),
+
+    description: z
         .string()
+        .optional(),
 });
 
 export default productSchema;

@@ -3,7 +3,9 @@ import uploadFile from '../utils/fileUploader.js';
 
 const createProduct = async (req, res) => {
     try {
+        console.log(req.body)
         const productData = req.body;
+        console.log("product is",productData)
         const id = req.user.id;
         const files = req.files;
         const imageUrl = await uploadFile(files);
