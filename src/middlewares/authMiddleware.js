@@ -1,13 +1,20 @@
 import { verifyToken } from "../utils/jwt.js";
 
 const authMiddleware = (req, res, next) => {
-    try {
+    const authHeader = req.headers.authorization;
+    let token;
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+        token = authHeader.split(" ")[1];
+    } else {
         const cookie = req.headers.cookie;
         if (!cookie) return res.status(401).send("User not authenticated.")
-        const token = cookie.split("=")[1];
-        const decoded = verifyToken(token);
+        token = cookie.split("=")[1];
+    }
+    try {
 
-        req.user = decoded;
+        const data = verifyToken(token);
+
+        req.user = data;
 
         next();
 
